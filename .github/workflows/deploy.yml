@@ -28,4 +28,6 @@ jobs:
           username: ${{ secrets.FTP_USER }}
           password: ${{ secrets.FTP_PASS }}
           local-dir: ./public/
-          server-dir: /web/sub/hugo/   # <- uprav podľa cieľovej cesty na Websupporte
+          server-dir: /web/sub/hugo/
+          dangerous-clean-slate: false
+          state-name: ../.ftp-state.json
