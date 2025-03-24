@@ -1,4 +1,4 @@
-name: 🚀 SSH Deploy to Websupport
+name: 🐛 Debug Hugo Deploy
 
 on:
   workflow_dispatch:
@@ -8,26 +8,44 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
+      - name: ✅ Checkout repository
         uses: actions/checkout@v4
 
-      - name: Build Hugo site with Docker
+      - name: 🛠️ Build Hugo site with Docker
         run: |
+          echo ">> Spúšťam Hugo build"
           docker run --rm \
             -v ${{ github.workspace }}:/src \
             -w /src \
             klakegg/hugo:ext-alpine \
             --minify
-      - name: List contents of public/
+          echo "✅ Hugo build hotový"
+
+      - name: 📂 Skontroluj obsah priečinku public/
         run: |
-          ls -lah public || echo "⚠️ public/ priečinok neexistuje"
-      - name: Upload via SSH (rsync)
-        uses: appleboy/ssh-action@v1.2.2
+          echo ">> Obsah priečinka ./public:"
+          ls -lah public || echo "⚠️ Priečinok public NEEXISTUJE!"
+
+      - name: 🔐 Pripoj sa cez SSH a over existenciu cieľovej zložky
+        uses: appleboy/ssh-action@v0.1.10
         with:
           host: ${{ secrets.FTP_HOST }}
           username: ${{ secrets.FTP_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: 28144
           script: |
-            mkdir -p ~/tomashujcak.sk/sub/hugo
-            rsync -avz --delete public/ /home/uid2787266/tomashujcak.sk/sub/hugo/
+            echo ">> Aktuálny priečinok:"
+            pwd
+            echo ">> Obsah ~/tomashujcak.sk/sub:"
+            ls -lah ~/tomashujcak.sk/sub || echo "❌ Cesta neexistuje"
+
+      - name: 🚀 Deploy Hugo cez rsync
+        uses: appleboy/ssh-action@v0.1.10
+        with:
+          host: ${{ secrets.FTP_HOST }}
+          username: ${{ secrets.FTP_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: 28144
+          script: |
+            echo ">> Deployujem public/ na server..."
+            rsync -avz --delete public/ ~/tomashujcak.sk/sub/hugo/ || echo "❌ RSYNC zlyhal!"
