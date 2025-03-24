@@ -1,4 +1,4 @@
-name: 🚀 Deploy Hugo to Websupport via FTP
+name: 🚀 Deploy Hugo to Websupport via SFTP
 
 on:
   push:
@@ -21,13 +21,12 @@ jobs:
             klakegg/hugo:ext-alpine \
             --minify
 
-      - name: Upload to FTP
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.4
+      - name: Upload to Websupport via SFTP
+        uses: appleboy/scp-action@v0.1.3
         with:
-          server: ${{ secrets.FTP_HOST }}
+          host: ${{ secrets.FTP_HOST }}
           username: ${{ secrets.FTP_USER }}
           password: ${{ secrets.FTP_PASS }}
-          local-dir: ./public/
-          server-dir: /web/sub/hugo/
-          dangerous-clean-slate: false
-          state-name: ../.ftp-state.json
+          source: "public/*"
+          target: "/web/sub/hugo/"
+          strip_components: 1
