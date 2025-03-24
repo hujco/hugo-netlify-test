@@ -29,4 +29,5 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: 28144
           script: |
+            mkdir -p ~/tomashujcak.sk/sub/hugo
             rsync -avz --delete public/ /home/uid2787266/tomashujcak.sk/sub/hugo/
