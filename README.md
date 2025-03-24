@@ -1,5 +1,3 @@
-Tu máš kompletný návod do README.md, ktorý môžeš priamo vložiť do repozitára:
-
 ⸻
 
 Hugo + Netlify CMS (Docker)
