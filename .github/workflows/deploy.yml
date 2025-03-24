@@ -1,9 +1,7 @@
 name: 🚀 Deploy Hugo to Websupport via SFTP
 
 on:
-  push:
-    branches:
-      - main
+  workflow_dispatch:
 
 jobs:
   deploy:
@@ -30,3 +28,4 @@ jobs:
           source: "public/*"
           target: "/web/sub/hugo/"
           strip_components: 1
+          debug: true
