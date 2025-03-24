@@ -9,7 +9,7 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Build Hugo site with Docker
         run: |
@@ -18,9 +18,11 @@ jobs:
             -w /src \
             klakegg/hugo:ext-alpine \
             --minify
-
+      - name: List contents of public/
+        run: |
+          ls -lah public || echo "⚠️ public/ priečinok neexistuje"
       - name: Upload via SSH (rsync)
-        uses: appleboy/ssh-action@v0.1.6
+        uses: appleboy/ssh-action@v1.2.2
         with:
           host: ${{ secrets.FTP_HOST }}
           username: ${{ secrets.FTP_USER }}
