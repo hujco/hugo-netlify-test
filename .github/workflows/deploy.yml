@@ -1,4 +1,4 @@
-name: 🚀 Deploy Hugo to Websupport via SFTP
+name: 🚀 SSH Deploy to Websupport
 
 on:
   workflow_dispatch:
@@ -19,14 +19,12 @@ jobs:
             klakegg/hugo:ext-alpine \
             --minify
 
-      - name: Upload to Websupport via SFTP
-        uses: appleboy/scp-action@v0.1.3
+      - name: Upload via SSH (rsync)
+        uses: appleboy/ssh-action@v0.1.6
         with:
           host: ${{ secrets.FTP_HOST }}
           username: ${{ secrets.FTP_USER }}
-          password: ${{ secrets.FTP_PASS }}
-          port: 22
-          source: "public/*"
-          target: "/web/sub/hugo/"
-          strip_components: 1
-          debug: true
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: 28144
+          script: |
+            rsync -avz --delete public/ /sub/hugo/
