@@ -1,0 +1,30 @@
+name: 🚀 Deploy Hugo to Websupport via FTP
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Docker
+        uses: docker/setup-buildx-action@v2
+
+      - name: Build Hugo site with Docker
+        run: |
+          docker-compose -f docker/development/docker-compose.yml -p hugo-netlify-test run build
+
+      - name: Upload to FTP
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.4
+        with:
+          server: ${{ secrets.FTP_HOST }}
+          username: ${{ secrets.FTP_USER }}
+          password: ${{ secrets.FTP_PASS }}
+          local-dir: ./public
+          server-dir: /sub/hugo/         # alebo iný koreň, podľa Websupport nastavení
