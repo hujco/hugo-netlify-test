@@ -36,8 +36,8 @@ jobs:
           script: |
             echo ">> Aktuálny priečinok:"
             pwd
-            echo ">> Obsah ~/tomashujcak.sk/sub:"
-            ls -lah ~/tomashujcak.sk/sub || echo "❌ Cesta neexistuje"
+            echo ">> Obsah ~/tomashujcak.sk/web:"
+            ls -lah ~/tomashujcak.sk/web || echo "❌ Cesta neexistuje"
 
       - name: 🚀 Deploy Hugo cez rsync
         uses: appleboy/ssh-action@v0.1.10
@@ -48,4 +48,4 @@ jobs:
           port: 28144
           script: |
             echo ">> Deployujem public/ na server..."
-            rsync -avz --delete public/ ~/tomashujcak.sk/sub/hugo/ || echo "❌ RSYNC zlyhal!"
+            rsync -avz --delete public/ ~/tomashujcak.sk/web/ || echo "❌ RSYNC zlyhal!"
