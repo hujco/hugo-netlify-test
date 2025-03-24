@@ -1,0 +1,16 @@
+services:
+  hugo:
+    image: klakegg/hugo:latest
+    platform: linux/arm64
+    command: server -D --bind 0.0.0.0
+    volumes:
+      - ../../:/src
+    ports:
+      - "1313:1313"
+
+  build:
+    image: klakegg/hugo:latest
+    platform: linux/arm64
+    command: --minify
+    volumes:
+      - ../../:/src

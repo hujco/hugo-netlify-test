@@ -1,0 +1,10 @@
+{{ define "main" }}
+<h2>Welcome to Hugo Blog!</h2>
+<ul>
+    {{ range first 5 (where .Site.RegularPages "Section" "blog") }}
+    <li>
+        <a href="{{ .Permalink }}">{{ .Title }}</a> ({{ .Date.Format "Jan 2, 2006" }})
+    </li>
+    {{ end }}
+</ul>
+{{ end }}
