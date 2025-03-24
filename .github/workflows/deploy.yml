@@ -33,7 +33,10 @@ jobs:
           script: |
             echo ">> Obsah ~/tomashujcak.sk/web:"
             ls -lah ~/tomashujcak.sk/web || echo "❌ Cieľ neexistuje"
-
+      - name: 🧪 Check public folder
+        run: |
+          echo "Obsah priečinka po builde:"
+          ls -lah public || echo "❌ public/ neexistuje!"
       - name: 🚀 Deploy Hugo cez rsync
         uses: appleboy/ssh-action@v0.1.10
         with:
