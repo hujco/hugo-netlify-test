@@ -25,6 +25,7 @@ jobs:
           host: ${{ secrets.FTP_HOST }}
           username: ${{ secrets.FTP_USER }}
           password: ${{ secrets.FTP_PASS }}
+          port: 22
           source: "public/*"
           target: "/web/sub/hugo/"
           strip_components: 1
