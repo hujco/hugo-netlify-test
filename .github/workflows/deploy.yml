@@ -1,4 +1,4 @@
-name: 🚀 Deploy Hugo site
+name: 🚀 Deploy Hugo site via SSH
 
 on:
   workflow_dispatch:
@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: ✅ Checkout code
+      - name: ✅ Checkout repository
         uses: actions/checkout@v4
 
       - name: 🛠️ Install Hugo CLI
@@ -20,10 +20,10 @@ jobs:
       - name: 🔨 Build Hugo site
         run: hugo --minify
 
-      - name: 📂 Check public/ directory
-        run: ls -lah public || echo "⚠️ public/ priečinok neexistuje"
+      - name: 📂 Check public/ exists
+        run: ls -lah public || echo "⚠️ Priečinok public NEEXISTUJE!"
 
-      - name: 🧪 Over server prístup
+      - name: 🔐 Over priečinok na serveri
         uses: appleboy/ssh-action@v0.1.10
         with:
           host: ${{ secrets.FTP_HOST }}
@@ -34,7 +34,7 @@ jobs:
             echo ">> Obsah ~/tomashujcak.sk/web:"
             ls -lah ~/tomashujcak.sk/web || echo "❌ Cieľ neexistuje"
 
-      - name: 🚀 Deploy cez rsync
+      - name: 🚀 Deploy Hugo cez rsync
         uses: appleboy/ssh-action@v0.1.10
         with:
           host: ${{ secrets.FTP_HOST }}
