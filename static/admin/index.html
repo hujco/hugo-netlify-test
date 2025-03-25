@@ -3,6 +3,14 @@
 <head>
     <meta charset="utf-8" />
     <title>Content Manager</title>
+    <script>
+        if (window.self === window.top) {
+            const originalOpen = window.open;
+            window.open = function(url, name, specs) {
+                return originalOpen.call(window, url, "_blank", "width=600,height=600");
+            };
+        }
+    </script>
     <script src="https://unpkg.com/js-yaml@4.1.0/dist/js-yaml.min.js"></script>
 </head>
 <body>
