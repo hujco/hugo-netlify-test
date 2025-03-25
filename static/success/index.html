@@ -1,35 +1,35 @@
 <!doctype html>
 <html lang="sk">
 <head>
-    <meta charset="UTF-8">
-    <title>OAuth debug mód 🔧📍</title>
+    <meta charset="utf-8">
+    <title>OAuth Hotovo ✅</title>
 </head>
-<body style="font-family:arial;">
-OAuth správa DEBUG (popup ostane otvorený):
+<body style="font-family:Arial;">
+OAuth úspešne dokončený, môžete zavrieť toto okno.
 
 <script>
-    const hash = window.location.hash.substr(1);
+    // Získanie dát z URL hash
+    const hash = window.location.hash.substring(1);
     const params = new URLSearchParams(hash);
     const token = params.get('access_token');
     const provider = params.get('provider');
 
-    const message = {
-        type: 'authorization:github',
-        token: token,
-        provider: provider
-    };
+    // Over token & provider
+    if (window.opener && token && provider) {
+        const message = {
+            type: 'authorization:github',
+            token: token,
+            provider: provider
+        };
 
-    // vypíš priamo do popupu HTML tela
-    document.body.innerHTML += `<pre>${JSON.stringify(message, null, 2)}</pre>`;
+        // Poslanie správy do CMS
+        window.opener.postMessage(message, '*');
 
-    // tiež vypíše do dev-tools konzoly
-    console.log("💌 MESSAGE DEBUG:", message);
+        // Zatvorenie popup okna po poslaní správy
+        setTimeout(() => window.close(), 500);
 
-    if (token && window.opener) {
-        window.opener.postMessage(message, "*");
-        // setTimeout(() => window.close(), 500); // dočasne zakomentované, aby popup ostal otvorený!
     } else {
-        document.body.innerHTML += "<br>⚠️ Nepodarilo sa poslať správu do CMS.";
+        document.body.innerHTML += "<br>⚠️ Nepodarilo sa získať token alebo nadviazať spojenie s hlavným oknom CMS.";
     }
 </script>
 </body>
