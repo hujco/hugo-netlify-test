@@ -1,21 +1,18 @@
-<!DOCTYPE html>
-<html lang="sk">
+<!doctype html>
+<html>
 <head>
-    <meta charset="UTF-8">
+    <meta charset="utf-8">
     <title>OAuth Success</title>
 </head>
 <body>
 OAuth Success - autorizácia úspešná, čakajte prosím...
 <script>
-    const params = new URLSearchParams(window.location.hash.substring(1));
-    const token = params.get("access_token");
-    const provider = params.get("provider");
-
-    if (token && provider) {
-        window.opener.postMessage(`authorization:${provider}:success:${token}`, "*");
+    // 👇 presne tento skript musí byť na /success, nie na /admin (!)
+    if (window.opener) {
+        window.opener.postMessage(window.location.hash, window.location.origin);
         window.close();
     } else {
-        document.body.innerHTML = "❌ CHYBA: chýba token/provider, token=[" + token + "], provider=[" + provider + "]";
+        window.location.href = "/admin/#" + window.location.hash;
     }
 </script>
 </body>
