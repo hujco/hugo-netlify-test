@@ -6,6 +6,10 @@ backend:
   auth_endpoint: auth
 
 site_url: https://tomashujcak.sk
+display_url: https://tomashujcak.sk    # <-- voliteľné (pre istotu pridaj)
+
+# 🔴 TOTO JE POVINNÉ A IBA TOTO TI AKTUÁLNE EŠTE CHÝBA
+site_domain: tomashujcak.sk
 
 publish_mode: editorial_workflow
 
