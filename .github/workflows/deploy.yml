@@ -18,32 +18,33 @@ jobs:
           extended: true
 
       - name: 🔨 Build Hugo site
-        run: hugo --minify
+        run: hugo --minify --verbose
 
-      - name: 📂 Check public/ exists
-        run: ls -lah public || echo "⚠️ Priečinok public NEEXISTUJE!"
-
-      - name: 🔐 Over priečinok na serveri
-        uses: appleboy/ssh-action@v0.1.10
-        with:
-          host: ${{ secrets.FTP_HOST }}
-          username: ${{ secrets.FTP_USER }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          port: 28144
-          script: |
-            echo ">> Obsah ~/tomashujcak.sk/web:"
-            ls -lah ~/tomashujcak.sk/web || echo "❌ Cieľ neexistuje"
-      - name: 🧪 Check public folder
+      - name: 📂 Skontroluj obsah public/ priečinka
         run: |
-          echo "Obsah priečinka po builde:"
-          ls -lah public || echo "❌ public/ neexistuje!"
-      - name: 🚀 Deploy Hugo cez rsync
-        uses: appleboy/ssh-action@v0.1.10
+          echo "📍 Aktuálny priečinok:"
+          pwd
+          echo "📂 Obsah public/:"
+          ls -lah public || echo "⚠️ Priečinok public NEEXISTUJE! Hugo build zlyhal alebo vygeneroval prázdny adresár."
+
+      - name: 🔐 Over cieľový priečinok na serveri
+        uses: appleboy/ssh-action@v1.2.2
         with:
           host: ${{ secrets.FTP_HOST }}
           username: ${{ secrets.FTP_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: 28144
           script: |
-            echo ">> Deployujem..."
-            rsync -avz --delete public/ ~/tomashujcak.sk/web/
+            echo "📍 Kontrolujem priečinok na serveri ~/tomashujcak.sk/web:"
+            ls -lah ~/tomashujcak.sk/web || echo "❌ Cieľ na serveri neexistuje!"
+
+      - name: 🚀 Deploy cez rsync s explicitnými cestami
+        uses: burnett01/rsync-deployments@latest
+        with:
+          switches: -avz --delete
+          path: public/
+          remote_path: ~/tomashujcak.sk/web/
+          remote_host: ${{ secrets.FTP_HOST }}
+          remote_user: ${{ secrets.FTP_USER }}
+          remote_port: 28144
+          remote_key: ${{ secrets.SSH_PRIVATE_KEY }}
