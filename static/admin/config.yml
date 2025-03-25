@@ -3,7 +3,7 @@ backend:
   repo: hujco/hugo-netlify-test
   branch: main
   base_url: https://netlify-cms-oauth-3obf.onrender.com
-  auth_endpoint: api/auth
+  auth_endpoint: auth
 
 site_url: https://tomashujcak.sk
 

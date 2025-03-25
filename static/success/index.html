@@ -1,26 +1,21 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="sk">
 <head>
     <meta charset="UTF-8">
-    <title>Authorization Success</title>
+    <title>OAuth Success</title>
 </head>
 <body>
-Authorization complete, redirecting...
+OAuth Success - autorizácia úspešná, čakajte prosím...
 <script>
-    const hash = window.location.hash.substring(1);
-    const params = new URLSearchParams(hash);
-
+    const params = new URLSearchParams(window.location.hash.substring(1));
     const token = params.get("access_token");
     const provider = params.get("provider");
 
     if (token && provider) {
-        window.opener.postMessage(
-            `authorization:${provider}:success:${token}`,
-            "*"
-        );
+        window.opener.postMessage(`authorization:${provider}:success:${token}`, "*");
         window.close();
     } else {
-        document.body.innerHTML = "❌ Missing token or provider!";
+        document.body.innerHTML = "❌ CHYBA: chýba token/provider, token=[" + token + "], provider=[" + provider + "]";
     }
 </script>
 </body>
