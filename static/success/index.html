@@ -1,38 +1,20 @@
 <!doctype html>
-<html>
+<html lang="sk">
 <head>
-    <meta charset="utf-8">
-    <title>OAuth Debugging</title>
+    <meta charset="UTF-8">
+    <title>OAuth úspešný ✅</title>
 </head>
-<body>
-OAuth Debug – OKNO SA TERAZ NEZATVORÍ, kontrolujeme token.<br>
-Otvor teraz DEVTOOLS (F12), pozri Network a Console.<br>
-Token nájdeš nižšie (v konzole aj na stránke).
+<body style="font-family:arial;">
+OAuth úspešný – môžeš toto okno zatvoriť.
 
 <script>
     const hash = window.location.hash;
-    const tokenInfo = document.createElement("div");
-    tokenInfo.innerText = `Token prijatý: ${hash}`;
-    tokenInfo.style.color = "green";
-    tokenInfo.style.padding = "10px";
-    tokenInfo.style.marginTop = "20px";
-    document.body.appendChild(tokenInfo);
-
-    console.log("[OAuth debug] hash prijatý: ", hash);
-
-    if(window.opener) {
-        console.log("[OAuth debug] Zistil som opener - pokus poslat spravu");
-        try {
-            window.opener.postMessage(hash, window.location.origin);
-            console.log("[OAuth debug] Správa úspešne odoslaná opener.");
-        } catch(err) {
-            console.error("[OAuth debug] Chyba pri postMessage: ", err);
-        }
-        console.log("[OAuth debug] DEBUG mod - Popup sa teraz NEZATVÁRA.");
-        //window.close();  // zatváranie vypnuté pre debugging!
+    const origin = window.location.origin;
+    if (window.opener && hash) {
+        window.opener.postMessage(hash, origin);
+        setTimeout(() => window.close(), 500);
     } else {
-        console.warn("[OAuth debug] window.opener NIE JE dostupný !");
-        console.log("[OAuth debug] Toto nie je popup. Toto okno sa teraz nezavrie.");
+        document.body.innerHTML += "<br>⚠️ Nepodarilo sa poslať správu do CMS.";
     }
 </script>
 </body>
