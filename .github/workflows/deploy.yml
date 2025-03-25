@@ -12,7 +12,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: 🛠️ Install Hugo CLI
-        uses: peaceiris/actions-hugo@v2
+        uses: peaceiris/actions-hugo@v3.0.0
         with:
           hugo-version: '0.124.1'
           extended: true
@@ -39,7 +39,7 @@ jobs:
             ls -lah ~/tomashujcak.sk/web || echo "❌ Cieľ na serveri neexistuje!"
 
       - name: 🚀 Deploy cez rsync s explicitnými cestami
-        uses: burnett01/rsync-deployments@latest
+        uses: burnett01/rsync-deployments@7.0.2
         with:
           switches: -avz --delete
           path: public/
