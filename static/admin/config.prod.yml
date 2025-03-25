@@ -2,7 +2,8 @@ backend:
   name: github
   repo: hujco/hugo-netlify-test
   branch: main
-  auth_scope: repo
+  base_url: https://netlify-cms-oauth-3obf.onrender.com
+  auth_endpoint: auth
 
 publish_mode: editorial_workflow
 
@@ -16,6 +17,6 @@ collections:
     create: true
     slug: "{{slug}}"
     fields:
-      - { label: "Title", name: "title", widget: "string" }
-      - { label: "Publish Date", name: "date", widget: "datetime" }
-      - { label: "Body", name: "body", widget: "markdown" }
+      - {label: "Title", name: "title", widget: "string"}
+      - {label: "Publish Date", name: "date", widget: "datetime"}
+      - {label: "Body", name: "body", widget: "markdown"}

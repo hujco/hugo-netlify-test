@@ -1,12 +1,39 @@
 <!doctype html>
 <html>
 <head>
-    <meta charset="utf-8">
+    <meta charset="utf-8" />
     <title>Content Manager</title>
-    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+    <script src="https://unpkg.com/js-yaml@4.1.0/dist/js-yaml.min.js"></script>
 </head>
 <body>
-<!-- Netlify CMS -->
-<script src="https://unpkg.com/netlify-cms@^2.0.0/dist/netlify-cms.js"></script>
+<script>
+    window.CMS_MANUAL_INIT = true;
+
+    document.addEventListener("DOMContentLoaded", () => {
+        const isLocal = location.hostname === "localhost" || location.hostname === "127.0.0.1";
+        const configPath = isLocal ? "config.yml" : "config.prod.yml";
+
+        // Dynamicky načítaj netlify-cms.js až keď je DOM pripravený
+        const script = document.createElement("script");
+        script.src = "https://unpkg.com/netlify-cms@^2.0.0/dist/netlify-cms.js";
+        script.onload = () => {
+            fetch(configPath)
+                .then((res) => {
+                    if (!res.ok) throw new Error(`⚠️ Nepodarilo sa načítať ${configPath}`);
+                    return res.text();
+                })
+                .then((text) => {
+                    const config = jsyaml.load(text);
+                    if (!window.CMS) throw new Error("❌ Netlify CMS sa nenačítalo");
+                    window.CMS.init(config);
+                })
+                .catch((err) => {
+                    document.body.innerHTML = `<pre style="color:red">${err.message}</pre>`;
+                    console.error(err);
+                });
+        };
+        document.body.appendChild(script);
+    });
+</script>
 </body>
 </html>
