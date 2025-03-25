@@ -2,6 +2,9 @@ backend:
   name: github
   repo: hujco/hugo-netlify-test
   branch: main
+  auth_scope: repo
+  base_url: https://api.netlify.com
+  auth_endpoint: auth
 
 publish_mode: editorial_workflow
 
