@@ -25,7 +25,12 @@
                 })
                 .then((text) => {
                     const config = jsyaml.load(text);
-                    if (!window.CMS) throw new Error("❌ Netlify CMS sa nenačítalo");
+                    console.log("✅ CMS config načítaný:", config);
+
+                    // Ulož config globálne, aby si ho mohol testovať cez konzolu
+                    window.cmsConfig = config;
+
+                    if (!window.CMS) throw new Error("❌ CMS sa nenačítalo");
                     window.CMS.init(config);
                 })
                 .catch((err) => {
