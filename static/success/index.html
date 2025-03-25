@@ -2,17 +2,32 @@
 <html lang="sk">
 <head>
     <meta charset="UTF-8">
-    <title>OAuth úspešný ✅</title>
+    <title>OAuth debug mód 🔧📍</title>
 </head>
 <body style="font-family:arial;">
-OAuth úspešný – môžeš toto okno zatvoriť.
+OAuth správa DEBUG (popup ostane otvorený):
 
 <script>
-    const hash = window.location.hash;
-    const origin = window.location.origin;
-    if (window.opener && hash) {
-        window.opener.postMessage(hash, origin);
-        setTimeout(() => window.close(), 500);
+    const hash = window.location.hash.substr(1);
+    const params = new URLSearchParams(hash);
+    const token = params.get('access_token');
+    const provider = params.get('provider');
+
+    const message = {
+        type: 'authorization:github',
+        token: token,
+        provider: provider
+    };
+
+    // vypíš priamo do popupu HTML tela
+    document.body.innerHTML += `<pre>${JSON.stringify(message, null, 2)}</pre>`;
+
+    // tiež vypíše do dev-tools konzoly
+    console.log("💌 MESSAGE DEBUG:", message);
+
+    if (token && window.opener) {
+        window.opener.postMessage(message, "*");
+        // setTimeout(() => window.close(), 500); // dočasne zakomentované, aby popup ostal otvorený!
     } else {
         document.body.innerHTML += "<br>⚠️ Nepodarilo sa poslať správu do CMS.";
     }
