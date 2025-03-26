@@ -1,53 +1,12 @@
 <!doctype html>
 <html>
 <head>
-    <meta charset="utf-8" />
+    <meta charset="utf-8">
     <title>Content Manager</title>
-    <script>
-        if (window.self === window.top) {
-            const originalOpen = window.open;
-            window.open = function(url, name, specs) {
-                return originalOpen.call(window, url, "_blank", "width=600,height=600");
-            };
-        }
-    </script>
-    <script src="https://unpkg.com/js-yaml@4.1.0/dist/js-yaml.min.js"></script>
+    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
 </head>
 <body>
-<div id="nc-root"></div>
-<script>
-    window.CMS_MANUAL_INIT = true;
-
-    document.addEventListener("DOMContentLoaded", () => {
-        const isLocal = location.hostname === "localhost" || location.hostname === "127.0.0.1";
-        const configPath = isLocal ? "config.local.yml" : "config.yml";
-
-        // Dynamicky načítaj netlify-cms.js až keď je DOM pripravený
-        const script = document.createElement("script");
-        script.src = "https://unpkg.com/netlify-cms@^2.0.0/dist/netlify-cms.js";
-        script.onload = () => {
-            fetch(configPath)
-                .then((res) => {
-                    if (!res.ok) throw new Error(`⚠️ Nepodarilo sa načítať ${configPath}`);
-                    return res.text();
-                })
-                .then((text) => {
-                    const config = jsyaml.load(text);
-                    console.log("✅ CMS config načítaný:", config);
-
-                    // Ulož config globálne, aby si ho mohol testovať cez konzolu
-                    window.cmsConfig = config;
-
-                    if (!window.CMS) throw new Error("❌ CMS sa nenačítalo");
-                    window.CMS.init(config);
-                })
-                .catch((err) => {
-                    document.body.innerHTML = `<pre style="color:red">${err.message}</pre>`;
-                    console.error(err);
-                });
-        };
-        document.body.appendChild(script);
-    });
-</script>
+<!-- Netlify CMS -->
+<script src="https://unpkg.com/netlify-cms@^2.0.0/dist/netlify-cms.js"></script>
 </body>
 </html>

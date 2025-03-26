@@ -8,9 +8,11 @@
 <header>
     <h1>{{ .Site.Title }}</h1>
     <nav>
-        <a href="{{ "/" | relURL }}">Home</a> |
-        <a href="{{ "/blog/" | relURL }}">Blog</a>
+        {{ range .Site.Menus.main }}
+        <a href="{{ .URL }}">{{ .Name }}</a> |
+        {{ end }}
     </nav>
+
 </header>
 
 <main>

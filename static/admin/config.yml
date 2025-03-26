@@ -16,6 +16,33 @@ publish_mode: editorial_workflow
 media_folder: "static/images/uploads"
 public_folder: "/images/uploads"
 
+menu:
+  main:
+    - identifier: home
+      name: "Domov"
+      url: "/"
+      weight: 1
+
+    - identifier: blog
+      name: "Blog"
+      url: "/blog/"
+      weight: 2
+
+    - identifier: features
+      name: "Funkcie"
+      url: "/features/"
+      weight: 3
+
+    - identifier: alternatives
+      name: "Alternatívy"
+      url: "/alternatives/"
+      weight: 4
+
+    - identifier: pages
+      name: "O nás"
+      url: "/pages/o-nas/"
+      weight: 5
+
 collections:
   - name: "blog"
     label: "Blog"
@@ -26,3 +53,31 @@ collections:
       - {label: "Title", name: "title", widget: "string"}
       - {label: "Publish Date", name: "date", widget: "datetime"}
       - {label: "Body", name: "body", widget: "markdown"}
+  - name: "pages"
+    label: "Stránky"
+    folder: "content/pages"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: "Title", name: "title", widget: "string" }
+      - { label: "Body", name: "body", widget: "markdown" }
+
+  - name: "features"
+    label: "Funkcie"
+    folder: "content/features"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: "Title", name: "title", widget: "string" }
+      - { label: "Feature Icon", name: "icon", widget: "string", required: false }
+      - { label: "Body", name: "body", widget: "markdown" }
+
+  - name: "alternatives"
+    label: "Alternatívy"
+    folder: "content/alternatives"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: "Title", name: "title", widget: "string" }
+      - { label: "Comparison Points", name: "comparison_points", widget: "list" }
+      - { label: "Body", name: "body", widget: "markdown" }
